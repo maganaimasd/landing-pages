@@ -193,7 +193,7 @@ $(function() {
     var form = $('#contact-form');
 	var url = "welcome.html?res=already";
 
-    $("#boton").click(function () {	 
+    $("#aceptar").click(function () {	 
         if($('#aceptar').prop('checked') ){
             
             $(location).attr('href',url);
@@ -204,6 +204,50 @@ $(function() {
         }
         
     });
+
+
+
+    ( function () {
+        let iteracionContador = 0;
+        let iteracionMaxima = 10;
+        const variableDeIntervalo = setInterval( modificarIframe, 500 );
+        function modificarIframe() {
+            // Chequeo que el contador de iteraciones no supere el iterador máximo para evitar el consumo de recursos.
+            if ( iteracionContador === iteracionMaxima ) {
+                // Paro el intervalo.
+                clearInterval( variableDeIntervalo );
+                return;
+            }
+            
+            // Busco el iframe en el DOM.
+            let iframeAModificar = document.querySelector( 'iframe' );
+            // Verifico si el iframe ya está cargado.
+            if (
+                ! iframeAModificar
+                || typeof iframeAModificar === 'undefined'
+            ) {
+                iteracionContador++;
+                return;
+            }
+            
+            // Detengo el intervalo para evitar el consumo de recursos del navegador.
+            clearInterval( variableDeIntervalo );
+            // Obtengo el contenido del elemento iframe.
+            let doc = iframeAModificar.contentDocument;
+            let nuevosEstilos = `
+            <style>
+                .fixed-strip {
+                    color: #ffffff;
+                }
+                
+                /* Aplica todos los estilos que desees aquí. */
+            </style>
+            `;
+            // La siguiente línea sobrescribe el contenido del iframe con los nuevos estilos.
+            doc.body.innerHTML = doc.body.innerHTML + nuevosEstilos;
+        }
+    } )();
+    
 
 });
 
